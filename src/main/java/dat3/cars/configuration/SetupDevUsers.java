@@ -1,25 +1,64 @@
 package dat3.cars.configuration;
 
+import dat3.cars.entity.Car;
+import dat3.cars.entity.Member;
+import dat3.cars.entity.Reservation;
+import dat3.cars.repository.CarRepository;
+import dat3.cars.repository.MemberRepository;
+import dat3.cars.repository.ReservationRepository;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
+import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Controller;
-import dat3.security.repository.UserWithRolesRepository;
+
+import java.time.LocalDate;
 
 @Controller
 public class SetupDevUsers implements ApplicationRunner {
-
     UserWithRolesRepository userWithRolesRepository;
+    MemberRepository memberRepository;
+    ReservationRepository reservationRepository;
+    CarRepository carRepository;
     String passwordUsedByAll;
-
-    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository) {
+    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository,
+                         MemberRepository memberRepository,
+                         CarRepository carRepository,
+                         ReservationRepository reservationRepository)
+    {
         this.userWithRolesRepository = userWithRolesRepository;
+        this.memberRepository = memberRepository;
+        this.carRepository = carRepository;
+        this.reservationRepository = reservationRepository;
         passwordUsedByAll = "test12";
     }
 
     @Override
     public void run(ApplicationArguments args) {
+        Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lynbby", "2800");
+        memberRepository.save(m1);
+
+        Car car1 = Car.builder()
+                .brand("Volvo")
+                .model("V70")
+                .pricePrDay(700)
+                .bestDiscount(30.0)
+                .build();
+        carRepository.save(car1);
+
+        Reservation r1 = Reservation.builder()
+                .car(car1)
+                .member(m1)
+                .rentalDate(LocalDate.of(2020,9,7))
+                .build();
+        Reservation r2 = new Reservation(m1, car1, LocalDate.of(2020, 9, 8));
+
+        reservationRepository.save(r1);
+        reservationRepository.save(r2);
+
+
+
         setupUserWithRoleUsers();
     }
 
