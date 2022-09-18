@@ -17,7 +17,6 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 //-----------------------------------------
 @Entity
 public class Member extends UserWithRoles {
