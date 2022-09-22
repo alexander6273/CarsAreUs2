@@ -29,6 +29,7 @@ public class ReservationController
         return reservationService.findReservationById(id);
     }
 
+    //TODO: should not be able to reserve a car that has already been rented
     @PostMapping("/{userName}/{carId}/{rentalDate}")
     void reserveCar(@PathVariable String userName, @PathVariable int carId, @PathVariable String rentalDate){
         LocalDate parsedDate = LocalDate.parse(rentalDate);

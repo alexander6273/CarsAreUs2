@@ -48,4 +48,10 @@ public class CarController
     void deleteCarById(@PathVariable Integer id){
 
     }
+
+    @GetMapping("f1")
+        String getFeature1(){
+            return "feature 1";
+        }
+
 }
