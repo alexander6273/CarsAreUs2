@@ -33,6 +33,7 @@ public class Reservation
 
     LocalDate rentalDate;
 
+    //TODO: should not be able to reserve a car that has already been rented
     public Reservation(Member member, Car car, LocalDate rentalDate){
         this.member = member;
         this.car = car;
